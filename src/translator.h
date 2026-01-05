@@ -791,7 +791,15 @@ class Translator
       if (latex_command.isEmpty()) latex_command = "latex";
       if (Config_getBool(USE_PDFLATEX))
       {
-        if (latex_command == "latex") latex_command = latexCmd;
+        QCString pdflatex_command = Config_getString(PDFLATEX_CMD_NAME);
+        if (!pdflatex_command.isEmpty())
+        {
+          latex_command = pdflatex_command;
+        }
+        else if (latex_command == "latex")
+        {
+          latex_command = latexCmd;
+        }
       }
       return latex_command;
     }

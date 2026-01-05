@@ -3077,6 +3077,17 @@ EXTRA_SEARCH_MAPPINGS = tagname1=loc1 tagname2=loc2 ...
 ]]>
       </docs>
     </option>
+    <option type='string' id='PDFLATEX_CMD_NAME' format='file' defval='' depends='GENERATE_LATEX'>
+      <docs>
+<![CDATA[
+ The \c PDFLATEX_CMD_NAME tag can be used to specify the \f$\mbox{\LaTeX}\f$ command name to be
+ invoked for generating PDF output when \ref cfg_use_pdflatex "USE_PDFLATEX" is enabled.
+ If left empty, the default is \c pdflatex. For specific output languages the default can
+ have been set differently (e.g. \c xelatex), this depends on the implementation of the output language.
+ \sa \ref cfg_latex_cmd_name "LATEX_CMD_NAME"
+]]>
+      </docs>
+    </option>
     <option type='string' id='MAKEINDEX_CMD_NAME' format='file' defval='makeindex' depends='GENERATE_LATEX'>
       <docs>
 <![CDATA[
