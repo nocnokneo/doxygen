@@ -15,34 +15,30 @@
 
 #include "fileparser.h"
 #include "outputgen.h"
+#include "outputlist.h"
 
-void FileParser::parseCode(CodeOutputInterface &codeOutIntf,
-               const char *,     // scopeName
+void FileCodeParser::parseCode(OutputCodeList &codeOutIntf,
+               const QCString &,    // scopeName
                const QCString &     input,
-               SrcLangExt,       // lang
-               bool,             // isExampleBlock
-               const char *,     // exampleName
-               FileDef *            fileDef,
-               int                  startLine,
-               int                  endLine,
-               bool,             // inlineFragment
-               MemberDef *,      // memberDef
-               bool                 showLineNumbers,
-               Definition *,     // searchCtx,
-               bool              // collectXRefs
+               SrcLangExt,          // lang
+               bool,                // stripCodeComments
+               const CodeParserOptions &options
               )
 {
-  int lineNr = startLine!=-1 ? startLine : 1;
-  int length = input.length();
-  int i=0;
-  while (i<length && (endLine==-1 || lineNr<=endLine))
+  int lineNr = options.startLine()!=-1 ? options.startLine() : 1;
+  size_t length = input.length();
+  size_t i=0;
+  while (i<length && (options.endLine()==-1 || lineNr<=options.endLine()))
   {
-    int j=i;
+    size_t j=i;
     while (j<length && input[j]!='\n') j++;
     QCString lineStr = input.mid(i,j-i);
-    codeOutIntf.startCodeLine(fileDef != 0 && showLineNumbers);
-    if (fileDef != 0 && showLineNumbers) codeOutIntf.writeLineNumber(0,0,0,lineNr);
-    if (!lineStr.isEmpty()) codeOutIntf.codify(lineStr);
+    codeOutIntf.startCodeLine(lineNr);
+    if (options.fileDef() && options.showLineNumbers())
+    {
+      codeOutIntf.writeLineNumber(QCString(),QCString(),QCString(),lineNr,!options.inlineFragment());
+    }
+    if (!lineStr.isEmpty()) codeOutIntf.codify(lineStr.data());
     codeOutIntf.endCodeLine();
     lineNr++;
     i=j+1;

@@ -1,13 +1,10 @@
 /******************************************************************************
  *
- * 
- *
- *
- * Copyright (C) 1997-2015 by Dimitri van Heesch.
+ * Copyright (C) 1997-2021 by Dimitri van Heesch.
  *
  * Permission to use, copy, modify, and distribute this software and its
- * documentation under the terms of the GNU General Public License is hereby 
- * granted. No representations are made about the suitability of this software 
+ * documentation under the terms of the GNU General Public License is hereby
+ * granted. No representations are made about the suitability of this software
  * for any purpose. It is provided "as is" without express or implied warranty.
  * See the GNU General Public License for more details.
  *
@@ -16,46 +13,46 @@
  *
  */
 
-#ifndef _CPPVALUE_H
-#define _CPPVALUE_H
+#ifndef CPPVALUE_H
+#define CPPVALUE_H
 
-#include <stdio.h>
-#include <qglobal.h> 
+#include <cstdio>
+#include <string>
 
 /** A class representing a C-preprocessor value. */
 class CPPValue
 {
   public:
-    enum Type { Int, Float };
-  
-    CPPValue(long val=0) : type(Int) { v.l = val; }
-    CPPValue(double val) : type(Float) { v.d = val; }
+    enum class Type { Int, Float };
 
-    operator double () const { return type==Int ? (double)v.l : v.d; }
-    operator long ()   const { return type==Int ? v.l : (long)v.d;   }
+    explicit constexpr CPPValue(char c)     noexcept : m_type(Type::Int),   m_d(0.0), m_l(c)   {}
+    explicit constexpr CPPValue(long val=0) noexcept : m_type(Type::Int),   m_d(0.0), m_l(val) {}
+    explicit constexpr CPPValue(double val) noexcept : m_type(Type::Float), m_d(val), m_l(0)   {}
 
-    bool isInt() const { return type == Int; }
-     
+    constexpr operator double () const noexcept { return m_type==Type::Int ? static_cast<double>(m_l) : m_d; }
+    constexpr operator long ()   const noexcept { return m_type==Type::Int ? m_l : static_cast<long>(m_d);   }
+
+    constexpr Type type() const noexcept { return m_type; }
+
     void print() const
     {
-      if (type==Int) 
-        printf("(%ld)\n",v.l);
+      if (m_type==Type::Int)
+        printf("(%ld)\n",m_l);
       else
-        printf("(%f)\n",v.d);
+        printf("(%f)\n",m_d);
     }
+    static CPPValue parseOctal      (const std::string &token);
+    static CPPValue parseDecimal    (const std::string &token);
+    static CPPValue parseHexadecimal(const std::string &token);
+    static CPPValue parseBinary     (const std::string &token);
+    static CPPValue parseCharacter  (const std::string &token);
+    static CPPValue parseFloat      (const std::string &token);
 
   private:
-    Type type;
-    union {
-      double d;
-      long l;
-    } v;
+    Type m_type;
+    double m_d;
+    long m_l;
 };
 
-extern CPPValue parseOctal();
-extern CPPValue parseDecimal();
-extern CPPValue parseHexadecimal();
-extern CPPValue parseCharacter();
-extern CPPValue parseFloat();
 
 #endif
