@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="" xml:lang="en-US">
+  <compounddef id="classcls" kind="class" language="C++" prot="public">
+    <compoundname>cls</compoundname>
+    <includes refid="more__125__b_8h" local="no">more_125_b.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcls_1aa3417b51dc289207b61af138318072d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cls::clsFunction</definition>
+        <argsstring>()</argsstring>
+        <name>clsFunction</name>
+        <qualifiedname>cls::clsFunction</qualifiedname>
+        <briefdescription>
+          <para>Refers to MY_STATIC_CONST from another file, which does not resolve. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="more_125_b.h" line="8" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+      <para>A class in a different file than MY_STATIC_CONST. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="more_125_b.h" line="4" column="1" bodyfile="more_125_b.h" bodystart="5" bodyend="9"/>
+    <listofallmembers>
+      <member refid="classcls_1aa3417b51dc289207b61af138318072d5" prot="public" virt="non-virtual">
+        <scope>cls</scope>
+        <name>clsFunction</name>
+      </member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
